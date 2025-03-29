@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSun, FiMoon, FiBell, FiMap, FiUser } from 'react-icons/fi';
+import WeatherMap from './WeatherMap';
 
 const mockExperiences = [
   {
@@ -81,6 +82,22 @@ const getMoodEmoji = (mood) => {
   return '🌤️';
 };
 
+const getCoordinates = async (location) => {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+    );
+    const data = await response.json();
+    if (data && data[0]) {
+      return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting coordinates:', error);
+    return null;
+  }
+};
+
 const Homepage = () => {
   const [experiences, setExperiences] = useState(mockExperiences);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -101,12 +118,15 @@ const Homepage = () => {
     document.documentElement.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const coordinates = await getCoordinates(newPost.location);
     
     const newExperience = {
       id: experiences.length + 1,
       ...newPost,
+      coordinates,
       timestamp: "Just now",
       outfit: generateOutfitSuggestion(newPost.temperature, newPost.humidity),
       weatherEmoji: getWeatherEmoji(newPost.weather),
@@ -215,8 +235,8 @@ const Homepage = () => {
                 isDarkMode ? 'bg-gray-800' : 'bg-white'
               }`}>
                 <h2 className="text-xl font-semibold mb-4">Weather Map</h2>
-                <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                  <p className="text-gray-500 dark:text-gray-400">Interactive map will be displayed here</p>
+                <div className="h-96 rounded-lg overflow-hidden">
+                  <WeatherMap experiences={experiences} />
                 </div>
               </div>
             </motion.div>
