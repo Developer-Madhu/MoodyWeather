@@ -39,7 +39,7 @@ const mockExperiences = [
     temperature: "24°C",
     humidity: "85%",
     mood: "Enjoying the pleasant monsoon! ☔",
-    image: "https://images.unsplash.com/photo-1595815771614-947f6138f418?w=800",
+    image: "https://images.pexels.com/photos/39811/pexels-photo-39811.jpeg?auto=compress&cs=tinysrgb&w=600",
     timestamp: "6 hours ago",
     outfit: "Light jacket with umbrella"
   },
@@ -86,21 +86,24 @@ const weatherAlerts = [
   }
 ];
 
+const weatherOptions = [
+  { value: 'sunny', label: 'Sunny ☀️' },
+  { value: 'rainy', label: 'Rainy ☔' },
+  { value: 'cloudy', label: 'Cloudy ☁️' },
+  { value: 'stormy', label: 'Stormy ⚡' },
+  { value: 'snowy', label: 'Snowy ❄️' }
+];
+
 const getWeatherEmoji = (weather) => {
-  switch (weather.toLowerCase()) {
-    case 'sunny':
-      return '☀️';
-    case 'rainy':
-      return '☔';
-    case 'stormy':
-      return '⚡';
-    case 'cloudy':
-      return '☁️';
-    case 'snowy':
-      return '❄️';
-    default:
-      return '🌤️';
-  }
+  const weatherType = weather.toLowerCase().trim();
+  const weatherMap = {
+    'sunny': '☀️',
+    'rainy': '☔',
+    'stormy': '⚡',
+    'cloudy': '☁️',
+    'snowy': '❄️'
+  };
+  return weatherMap[weatherType] || '🌤️';
 };
 
 const getMoodEmoji = (mood) => {
@@ -150,6 +153,11 @@ const Homepage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    if (!weatherOptions.some(option => option.value === newPost.weather)) {
+      alert('Please select a valid weather condition');
+      return;
+    }
+
     const coordinates = await getCoordinates(newPost.location);
     
     const newExperience = {
@@ -168,7 +176,7 @@ const Homepage = () => {
       mood: "",
       image: "",
       location: "",
-      weather: "Sunny",
+      weather: "",
       temperature: "70°F",
       humidity: "65%",
       user: "Current User",
@@ -354,6 +362,25 @@ const Homepage = () => {
                   placeholder="Paste image URL here"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Weather</label>
+                <select
+                  value={newPost.weather}
+                  onChange={(e) => setNewPost({ ...newPost, weather: e.target.value })}
+                  className={`w-full px-4 py-2 rounded-lg border ${
+                    isDarkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : 'bg-white border-gray-300'
+                  } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                >
+                  <option value="" disabled>Select weather condition</option>
+                  {weatherOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <button
                 type="submit"
                 className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200"
@@ -405,9 +432,11 @@ const Homepage = () => {
                   
                   <div className="flex items-center space-x-3 mb-3">
                     <div className="flex items-center space-x-1">
-                      <span className="text-2xl">{getWeatherEmoji(experience.weather)}</span>
+                      <span className="text-2xl">
+                        {getWeatherEmoji(experience.weather)}
+                      </span>
                       <span style={{ color: isDarkMode ? 'white' : '#000000' }} className="font-semibold">
-                        {experience.weather}
+                        {experience.weather.charAt(0).toUpperCase() + experience.weather.slice(1)}
                       </span>
                     </div>
                     <span style={{ color: isDarkMode ? 'white' : '#000000' }}>•</span>
