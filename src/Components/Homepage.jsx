@@ -6,39 +6,68 @@ import WeatherMap from './WeatherMap';
 const mockExperiences = [
   {
     id: 1,
-    user: "Sarah Johnson",
-    location: "New York",
+    user: "Priya Sharma",
+    location: "Mumbai",
+    coordinates: [19.0760, 72.8777], // Mumbai coordinates
     weather: "Sunny",
-    temperature: "72°F",
-    humidity: "65%",
-    mood: "Happy and energetic! ☀️",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+    temperature: "32°C",
+    humidity: "75%",
+    mood: "Enjoying the coastal breeze! ☀️",
+    image: "https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=800",
     timestamp: "2 hours ago",
-    outfit: "Light cotton dress with sunglasses"
+    outfit: "Light cotton saree with sunglasses"
   },
   {
     id: 2,
-    user: "Mike Chen",
-    location: "Seattle",
-    weather: "Rainy",
-    temperature: "58°F",
-    humidity: "85%",
-    mood: "Cozy vibes with my coffee ☔",
-    image: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=800",
+    user: "Rahul Kumar",
+    location: "Delhi",
+    coordinates: [28.6139, 77.2090], // Delhi coordinates
+    weather: "Cloudy",
+    temperature: "28°C",
+    humidity: "65%",
+    mood: "Perfect weather for chai ☕",
+    image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800",
     timestamp: "4 hours ago",
-    outfit: "Waterproof jacket with boots"
+    outfit: "Casual cotton kurta"
   },
   {
     id: 3,
-    user: "Emma Davis",
-    location: "Miami",
-    weather: "Stormy",
-    temperature: "82°F",
-    humidity: "75%",
-    mood: "Watching the lightning show ⚡",
-    image: "https://images.unsplash.com/photo-1501630834273-4b79f9ff9766?w=800",
+    user: "Anjali Patel",
+    location: "Bangalore",
+    coordinates: [12.9716, 77.5946], // Bangalore coordinates
+    weather: "Rainy",
+    temperature: "24°C",
+    humidity: "85%",
+    mood: "Enjoying the pleasant monsoon! ☔",
+    image: "https://images.unsplash.com/photo-1595815771614-947f6138f418?w=800",
     timestamp: "6 hours ago",
-    outfit: "Light raincoat with umbrella"
+    outfit: "Light jacket with umbrella"
+  },
+  {
+    id: 4,
+    user: "Vikram Singh",
+    location: "Jaipur",
+    coordinates: [26.9124, 75.7873], // Jaipur coordinates
+    weather: "Sunny",
+    temperature: "35°C",
+    humidity: "45%",
+    mood: "Exploring the Pink City! 🏰",
+    image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=800",
+    timestamp: "5 hours ago",
+    outfit: "Traditional Rajasthani attire"
+  },
+  {
+    id: 5,
+    user: "Maya Reddy",
+    location: "Chennai",
+    coordinates: [13.0827, 80.2707], // Chennai coordinates
+    weather: "Sunny",
+    temperature: "33°C",
+    humidity: "80%",
+    mood: "Beach vibes at Marina! 🌊",
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800",
+    timestamp: "3 hours ago",
+    outfit: "Light cotton dress with hat"
   }
 ];
 
@@ -149,9 +178,9 @@ const Homepage = () => {
 
   const generateOutfitSuggestion = (temp, humidity) => {
     const tempNum = parseInt(temp);
-    if (tempNum > 80) return "Light cotton clothes with sunscreen";
-    if (tempNum > 60) return "Casual wear with light jacket";
-    return "Warm layers with waterproof outerwear";
+    if (tempNum > 30) return "Light cotton clothes with sunscreen";
+    if (tempNum > 20) return "Casual wear with light jacket";
+    return "Light layers with rain protection";
   };
 
   return (

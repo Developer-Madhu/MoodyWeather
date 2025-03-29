@@ -14,7 +14,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: i3,
 });
 
-// Import the getWeatherEmoji function from Homepage or create it here
+// Import getWeatherEmoji from Homepage or define it here
 const getWeatherEmoji = (weather) => {
   switch (weather.toLowerCase()) {
     case 'sunny':
@@ -33,13 +33,13 @@ const getWeatherEmoji = (weather) => {
 };
 
 const WeatherMap = ({ experiences }) => {
-  // Default coordinates (center of US)
-  const defaultPosition = [39.8283, -98.5795];
+  // Center coordinates for India
+  const defaultPosition = [20.5937, 78.9629]; // India's center coordinates
 
   return (
     <MapContainer
       center={defaultPosition}
-      zoom={4}
+      zoom={5} // Adjusted zoom level for India
       style={{ height: '100%', width: '100%', borderRadius: '0.5rem' }}
     >
       <TileLayer
