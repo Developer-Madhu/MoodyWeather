@@ -136,15 +136,15 @@ const Homepage = () => {
   const [showAlerts, setShowAlerts] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [newPost, setNewPost] = useState({
-    mood: "",
-    image: "",
-    location: "",
-    weather: "Sunny",
-    temperature: "70°F",
-    humidity: "65%",
-    user: "Current User",
-    outfit: ""
-  });
+    user: "",
+      mood: "",
+      image: "",
+      location: "",
+      weather: "",
+      temperature: "70°F",
+      humidity: "65%",
+      outfit: ""
+    });
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -153,6 +153,11 @@ const Homepage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    if (!newPost.user.trim()) {
+      alert('Please enter your name');
+      return;
+    }
+
     if (!weatherOptions.some(option => option.value === newPost.weather)) {
       alert('Please select a valid weather condition');
       return;
@@ -173,13 +178,13 @@ const Homepage = () => {
     setExperiences([newExperience, ...experiences]);
     
     setNewPost({
+      user: "",
       mood: "",
       image: "",
       location: "",
       weather: "",
       temperature: "70°F",
       humidity: "65%",
-      user: "Current User",
       outfit: ""
     });
   };
@@ -292,6 +297,21 @@ const Homepage = () => {
           >
             <h2 className="text-xl font-semibold mb-4">Share Your Experience</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Your Name</label>
+                <input
+                  type="text"
+                  value={newPost.user}
+                  onChange={(e) => setNewPost({ ...newPost, user: e.target.value })}
+                  className={`w-full px-4 py-2 rounded-lg border ${
+                    isDarkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : 'bg-white border-gray-300'
+                  } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium mb-1">How's the weather making you feel?</label>
                 <input
