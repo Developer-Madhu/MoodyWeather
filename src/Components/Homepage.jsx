@@ -207,29 +207,69 @@ const Homepage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-between items-center mb-8"
         >
-          <div>
-            <h1 className="text-4xl font-bold mb-2">Weather Experiences</h1>
-            <p className="text-gray-600 dark:text-gray-400">Share your weather moments with the world</p>
+          <div className="flex flex-col">
+            <h1 className={`text-5xl font-bold mb-2 relative ${
+              isDarkMode 
+                ? 'text-white' 
+                : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-indigo-600'
+            }`}>
+              Weather Experiences
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                className={`h-1 mt-2 rounded-full ${
+                  isDarkMode
+                    ? 'bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400'
+                    : 'bg-gradient-to-r from-blue-600 via-purple-500 to-indigo-600'
+                }`}
+              />
+            </h1>
+            <p className={`text-lg ${
+              isDarkMode 
+                ? 'text-gray-300' 
+                : 'text-gray-600'
+            }`}>
+              Share your weather moments with the world
+              <span className="ml-2">✨</span>
+            </p>
           </div>
           <div className="flex space-x-4">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setShowAlerts(!showAlerts)}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className={`p-2 rounded-full transition-colors duration-300 ${
+                isDarkMode
+                  ? 'bg-gray-800 hover:bg-gray-700 text-gray-200'
+                  : 'bg-white hover:bg-gray-100 shadow-md'
+              }`}
             >
               <FiBell className="w-6 h-6" />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setShowMap(!showMap)}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className={`p-2 rounded-full transition-colors duration-300 ${
+                isDarkMode
+                  ? 'bg-gray-800 hover:bg-gray-700 text-gray-200'
+                  : 'bg-white hover:bg-gray-100 shadow-md'
+              }`}
             >
               <FiMap className="w-6 h-6" />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className={`p-2 rounded-full transition-colors duration-300 ${
+                isDarkMode
+                  ? 'bg-gray-800 hover:bg-gray-700 text-gray-200'
+                  : 'bg-white hover:bg-gray-100 shadow-md'
+              }`}
             >
               {isDarkMode ? <FiSun className="w-6 h-6" /> : <FiMoon className="w-6 h-6" />}
-            </button>
+            </motion.button>
           </div>
         </motion.div>
 
