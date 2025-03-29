@@ -56,6 +56,31 @@ const weatherAlerts = [
   }
 ];
 
+const getWeatherEmoji = (weather) => {
+  switch (weather.toLowerCase()) {
+    case 'sunny':
+      return '☀️';
+    case 'rainy':
+      return '☔';
+    case 'stormy':
+      return '⚡';
+    case 'cloudy':
+      return '☁️';
+    case 'snowy':
+      return '❄️';
+    default:
+      return '🌤️';
+  }
+};
+
+const getMoodEmoji = (mood) => {
+  if (mood.toLowerCase().includes('happy')) return '😊';
+  if (mood.toLowerCase().includes('cozy')) return '🛋️';
+  if (mood.toLowerCase().includes('energetic')) return '⚡';
+  if (mood.toLowerCase().includes('storm')) return '⛈️';
+  return '🌤️';
+};
+
 const Homepage = () => {
   const [experiences, setExperiences] = useState(mockExperiences);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -83,7 +108,9 @@ const Homepage = () => {
       id: experiences.length + 1,
       ...newPost,
       timestamp: "Just now",
-      outfit: generateOutfitSuggestion(newPost.temperature, newPost.humidity)
+      outfit: generateOutfitSuggestion(newPost.temperature, newPost.humidity),
+      weatherEmoji: getWeatherEmoji(newPost.weather),
+      moodEmoji: getMoodEmoji(newPost.mood)
     };
 
     setExperiences([newExperience, ...experiences]);
@@ -305,31 +332,66 @@ const Homepage = () => {
                     alt={experience.weather}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                    <h3 className="text-white text-xl font-semibold">{experience.location}</h3>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-3xl drop-shadow-lg">{getWeatherEmoji(experience.weather)}</span>
+                      <h3 className="text-white text-xl font-bold drop-shadow-lg">{experience.location}</h3>
+                    </div>
                   </div>
                 </div>
                 <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-2">
-                      <FiUser className="w-5 h-5" />
-                      <span className="font-medium">{experience.user}</span>
+                      <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
+                        <FiUser className="w-5 h-5 text-blue-700 dark:text-blue-200" />
+                      </div>
+                      <span style={{ color: isDarkMode ? 'white' : '#000000' }} className="font-semibold text-lg">
+                        {experience.user}
+                      </span>
                     </div>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{experience.timestamp}</span>
-                  </div>
-                  <div className="flex items-center space-x-2 mb-2">
-                    <span className="text-2xl">
-                      {experience.weather === "Sunny" ? "☀️" : experience.weather === "Rainy" ? "☔" : "⚡"}
+                    <span style={{ color: isDarkMode ? 'white' : '#000000' }} className="text-sm font-medium">
+                      {experience.timestamp}
                     </span>
-                    <span className="text-gray-600 dark:text-gray-300">{experience.temperature}</span>
-                    <span className="text-gray-500 dark:text-gray-400">•</span>
-                    <span className="text-gray-600 dark:text-gray-300">{experience.humidity}</span>
                   </div>
-                  <p className="text-gray-700 dark:text-gray-300 mb-2">{experience.mood}</p>
-                  <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
-                    <p className="text-sm text-blue-700 dark:text-blue-300">
-                      <span className="font-medium">Outfit Suggestion:</span> {experience.outfit}
-                    </p>
+                  
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="flex items-center space-x-1">
+                      <span className="text-2xl">{getWeatherEmoji(experience.weather)}</span>
+                      <span style={{ color: isDarkMode ? 'white' : '#000000' }} className="font-semibold">
+                        {experience.weather}
+                      </span>
+                    </div>
+                    <span style={{ color: isDarkMode ? 'white' : '#000000' }}>•</span>
+                    <span style={{ color: isDarkMode ? 'white' : '#000000' }} className="font-semibold">
+                      {experience.temperature}
+                    </span>
+                    <span style={{ color: isDarkMode ? 'white' : '#000000' }}>•</span>
+                    <span style={{ color: isDarkMode ? 'white' : '#000000' }} className="font-semibold">
+                      {experience.humidity}
+                    </span>
+                  </div>
+
+                  <div className="mb-3">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-2xl">{getMoodEmoji(experience.mood)}</span>
+                      <p style={{ color: isDarkMode ? 'white' : '#000000' }} className="text-lg font-semibold">
+                        {experience.mood}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 border border-gray-200 dark:border-gray-700 rounded-lg p-3">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-lg">👕</span>
+                      <div>
+                        <p style={{ color: isDarkMode ? 'white' : '#000000' }} className="font-semibold">
+                          Outfit Suggestion
+                        </p>
+                        <p style={{ color: isDarkMode ? 'white' : '#000000' }} className="font-medium">
+                          {experience.outfit}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
